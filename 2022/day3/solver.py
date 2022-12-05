@@ -48,4 +48,7 @@ class Day3Solver(Solver):
         return self.second_alg(rucksacks)
     
     def second_alg(self, rucksacks: list[list[str]]):
-        pass
+        groups = [list(set(rucksacks[i]).intersection(rucksacks[i+1]).intersection(rucksacks[i+2])) for i in range(0, len(rucksacks), 3)]
+        total = sum(self.compute_priority(group[0]) for group in groups)
+
+        return total
