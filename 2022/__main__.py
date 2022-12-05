@@ -1,5 +1,5 @@
 import os
-from .day3.solver import Day3Solver as CurrSolver
+from .day4.solver import Day4Solver as CurrSolver
 
 latest = max(int(dir.replace("day", "")) for dir in next(os.walk(os.path.dirname(__file__)))[1] if dir.replace("day", "").isdigit())
 latest_dir = os.path.join(os.path.dirname(__file__), f"day{latest}")
