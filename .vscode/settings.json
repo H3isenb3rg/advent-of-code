@@ -2,5 +2,12 @@
     "python.analysis.typeCheckingMode": "basic",
     "files.autoSave": "afterDelay",
     "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "black-formatter.args": [
+        "--line-length=160"
+    ],
+    "python.linting.flake8Args": [
+        "--ignore=E401",
+        "--max-line-length=160"
+    ]
 }

@@ -41,10 +41,14 @@ def compute_scenic_score(forest: list[list[int]], tree: tuple[int, int]) -> int:
         if tree[1] + direction[1] not in range(len(forest)):
             continue
         # directionx2 since we always see the first tree so we start directly from the second one
-        curr_x = tree[0] + direction[0]*2
-        curr_y = tree[1] + direction[1]*2
-        curr_dist = 1
-        while curr_x in range(len(forest[0])) and curr_y in range(len(forest)) and not forest[curr_y][curr_x] < forest[curr_y - direction[1]][curr_x - direction[0]]:
+        curr_x = tree[0] + direction[0]
+        curr_y = tree[1] + direction[1]
+        curr_dist = 0
+        while curr_x in range(len(forest[0])) and curr_y in range(len(forest)):
+            if forest[curr_y][curr_x] >= forest[tree[1]][tree[0]]:
+                curr_dist += 1
+                break
+
             curr_dist += 1
             curr_x += direction[0]
             curr_y += direction[1]
@@ -73,13 +77,13 @@ class Day8Solver(Solver):
         visibles = visibles.union(compute_visibles_vertical(range(len(forest[0])), range(len(forest)), forest))
 
         # Bottom Top
-        visibles = visibles.union(compute_visibles_vertical(range(len(forest[0])), range(len(forest)-1, -1, -1), forest))
+        visibles = visibles.union(compute_visibles_vertical(range(len(forest[0])), range(len(forest) - 1, -1, -1), forest))
 
         # Left Right
         visibles = visibles.union(compute_visibles_horizontal(range(len(forest)), range(len(forest[0])), forest))
 
         # Right Left
-        visibles = visibles.union(compute_visibles_horizontal(range(len(forest)), range(len(forest[0])-1, -1, -1), forest))
+        visibles = visibles.union(compute_visibles_horizontal(range(len(forest)), range(len(forest[0]) - 1, -1, -1), forest))
 
         return len(visibles)
 
@@ -88,4 +92,4 @@ class Day8Solver(Solver):
         return self.second_alg(forest)
 
     def second_alg(self, forest: list[list[int]]):
-        return max(max(compute_scenic_score(forest, (x, y)) for x in range(len(forest[0]))) for y in range(len(forest)))
+        return max(max(compute_scenic_score(forest, (x, y)) for x in range(1, len(forest[0]) - 1)) for y in range(1, len(forest) - 1))
